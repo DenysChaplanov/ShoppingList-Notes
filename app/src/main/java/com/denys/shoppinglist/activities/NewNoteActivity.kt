@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
 import android.text.Spannable
 import android.text.style.StyleSpan
 import android.view.Menu
@@ -13,6 +14,7 @@ import com.denys.shoppinglist.R
 import com.denys.shoppinglist.databinding.ActivityNewNoteBinding
 import com.denys.shoppinglist.entities.NoteItem
 import com.denys.shoppinglist.fragments.NoteFragment
+import com.denys.shoppinglist.utils.HtmlManager
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -39,7 +41,7 @@ class NewNoteActivity : AppCompatActivity() {
 
     private fun fillNote() = with(binding){
         edTitle.setText(note?.title)
-        edDescription.setText(note?.content)
+        edDescription.setText(HtmlManager.getFromHtml(note?.content!!).trim())
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -104,7 +106,7 @@ class NewNoteActivity : AppCompatActivity() {
     private fun updateNote(): NoteItem? = with(binding) {
         return note?.copy(
             title = edTitle.text.toString(),
-            content = edDescription.text.toString()
+            content = HtmlManager.toHtml(edDescription.text)
         )
     }
 
@@ -112,7 +114,7 @@ class NewNoteActivity : AppCompatActivity() {
         return NoteItem(
             null,
             binding.edTitle.text.toString(),
-            binding.edDescription.text.toString(),
+            HtmlManager.toHtml(binding.edDescription.text),
             getCurrentTime(),
             ""
             )
