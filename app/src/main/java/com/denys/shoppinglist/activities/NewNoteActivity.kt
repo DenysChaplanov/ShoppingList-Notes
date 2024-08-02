@@ -4,17 +4,19 @@ import android.content.Intent
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Html
 import android.text.Spannable
 import android.text.style.StyleSpan
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.animation.Animation
 import android.widget.Toast
 import com.denys.shoppinglist.R
 import com.denys.shoppinglist.databinding.ActivityNewNoteBinding
 import com.denys.shoppinglist.entities.NoteItem
 import com.denys.shoppinglist.fragments.NoteFragment
 import com.denys.shoppinglist.utils.HtmlManager
+import com.google.android.material.animation.AnimationUtils
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -59,6 +61,13 @@ class NewNoteActivity : AppCompatActivity() {
             }
             R.id.id_bold -> {
                 setBoldForSelectedText()
+            }
+            R.id.id_color -> {
+                if(binding.colorPicker.isShown()){
+                    closeColorPicker()
+                } else {
+                    openColorPicker()
+                }
             }
         }
         return super.onOptionsItemSelected(item)
@@ -128,5 +137,30 @@ class NewNoteActivity : AppCompatActivity() {
     private fun actionBarSettings(){
         val ab = supportActionBar
         ab?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun openColorPicker(){
+        binding.colorPicker.visibility = View.VISIBLE
+        val openAnim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.open_color_picker)
+        binding.colorPicker.startAnimation(openAnim)
+    }
+
+    private fun closeColorPicker(){
+        val closeAnim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.close_color_picker)
+        closeAnim.setAnimationListener(object : Animation.AnimationListener{
+            override fun onAnimationStart(animation: Animation?) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                binding.colorPicker.visibility = View.GONE
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {
+
+            }
+
+        })
+        binding.colorPicker.startAnimation(closeAnim)
     }
 }
