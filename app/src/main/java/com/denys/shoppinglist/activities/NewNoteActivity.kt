@@ -21,7 +21,6 @@ import com.denys.shoppinglist.entities.NoteItem
 import com.denys.shoppinglist.fragments.NoteFragment
 import com.denys.shoppinglist.utils.HtmlManager
 import com.denys.shoppinglist.utils.MyTouchListener
-import com.google.android.material.animation.AnimationUtils
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -34,50 +33,44 @@ class NewNoteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNewNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        actionBarSettings()
-        getNote()
-        onClickColorPicker()
-        init()
-        actionMenuCallback()
+        setupActionBar()
+        retrieveNoteFromIntent()
+        setupColorPicker()
+        initializeTouchListener()
+        setupActionMenuCallback()
     }
 
-    private fun onClickColorPicker() = with(binding){
-        imRed.setOnClickListener {
-            setColorForSelectedText(R.color.picker_red)
-        }
-        imBlack.setOnClickListener {
-            setColorForSelectedText(R.color.picker_black)
-        }
-        imBlue.setOnClickListener {
-            setColorForSelectedText(R.color.picker_blue)
-        }
-        imYellow.setOnClickListener {
-            setColorForSelectedText(R.color.picker_yellow)
-        }
-        imGreen.setOnClickListener {
-            setColorForSelectedText(R.color.picker_green)
-        }
-        imOrange.setOnClickListener {
-            setColorForSelectedText(R.color.picker_orange)
+    //onClickColorPicker
+    private fun setupColorPicker() = with(binding) {
+        val colorButtons = mapOf(
+            R.color.picker_red to imRed,
+            R.color.picker_black to imBlack,
+            R.color.picker_blue to imBlue,
+            R.color.picker_yellow to imYellow,
+            R.color.picker_green to imGreen,
+            R.color.picker_orange to imOrange
+        )
+
+        colorButtons.forEach { (color, button) ->
+            button.setOnClickListener { applyTextColor(color) }
         }
     }
 
+    //init
     @SuppressLint("ClickableViewAccessibility")
-    private fun init(){
+    private fun initializeTouchListener() {
         binding.colorPicker.setOnTouchListener(MyTouchListener())
     }
 
-    private fun getNote(){
-        val sNote = intent.getSerializableExtra(NoteFragment.NEW_NOTE_KEY)
-        if (sNote != null){
-            note = sNote as NoteItem
-            fillNote()
-        }
+    //getNote
+    private fun retrieveNoteFromIntent() {
+        note = intent.getSerializableExtra(NoteFragment.NEW_NOTE_KEY) as? NoteItem
+        note?.let { fillNoteFields(it) }
     }
 
-    private fun fillNote() = with(binding){
-        edTitle.setText(note?.title)
-        edDescription.setText(HtmlManager.getFromHtml(note?.content!!).trim())
+    private fun fillNoteFields(note: NoteItem) = with(binding) {
+        edTitle.setText(note.title)
+        edDescription.setText(HtmlManager.getFromHtml(note.content).trim())
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -86,158 +79,146 @@ class NewNoteActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.id_save -> {
-                setMainResult()
+                saveNote()
+                true
             }
+
             android.R.id.home -> {
                 finish()
+                true
             }
+
             R.id.id_bold -> {
-                setBoldForSelectedText()
+                toggleBoldForSelectedText()
+                true
             }
+
             R.id.id_color -> {
-                if(binding.colorPicker.isShown()){
-                    closeColorPicker()
-                } else {
-                    openColorPicker()
-                }
+                toggleColorPickerVisibility()
+                true
             }
+
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
-    private fun setBoldForSelectedText() = with(binding) {
+    private fun toggleBoldForSelectedText() {
+        applyTextStyle(StyleSpan(Typeface.BOLD))
+    }
+
+    private fun applyTextColor(colorId: Int) {
+        applyTextStyle(ForegroundColorSpan(ContextCompat.getColor(this, colorId)))
+    }
+
+    // Универсальный метод для применения стилей к выделенному тексту
+    private fun applyTextStyle(style: Any) = with(binding) {
         val startPos = edDescription.selectionStart
         val endPos = edDescription.selectionEnd
 
-        val styles = edDescription.text.getSpans(startPos, endPos, StyleSpan::class.java)
-        var boldStyleSpan: StyleSpan? = null
-
-        val selectedText: String = edDescription.getText().substring(startPos, endPos)
-
-        if(selectedText.isNotEmpty()) {
-            if (styles.isNotEmpty()) {
-                edDescription.text.removeSpan(styles[0])
-            } else {
-                boldStyleSpan = StyleSpan(Typeface.BOLD)
-                edDescription.text.setSpan(boldStyleSpan, startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            }
-            edDescription.text.trim()
+        if (startPos != endPos) {
+            // Удаляем существующий стиль, если он присутствует в диапазоне
+            removeExistingSpans(startPos, endPos, style::class.java)
+            edDescription.text.setSpan(style, startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             edDescription.setSelection(startPos)
         } else {
-            Toast.makeText(this@NewNoteActivity, "No text selected", Toast.LENGTH_SHORT).show()
+            showToast("No text selected")
         }
     }
 
-    private fun setColorForSelectedText(colorId: Int) = with(binding) {
-        val startPos = edDescription.selectionStart
-        val endPos = edDescription.selectionEnd
-
-        val styles = edDescription.text.getSpans(startPos, endPos, ForegroundColorSpan::class.java)
-        val selectedText: String = edDescription.getText().substring(startPos, endPos)
-
-        if(selectedText.isNotEmpty()) {
-            if (styles.isNotEmpty()) edDescription.text.removeSpan(styles[0])
-
-            edDescription.text.setSpan(
-                ForegroundColorSpan(ContextCompat.getColor(
-                    this@NewNoteActivity, colorId)), startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            edDescription.text.trim()
-            edDescription.setSelection(startPos)
-        } else {
-            Toast.makeText(this@NewNoteActivity, "No text selected", Toast.LENGTH_SHORT).show()
-        }
+    // Удаляем существующие спаны, если они присутствуют
+    private fun removeExistingSpans(start: Int, end: Int, type: Class<*>) {
+        val spans = binding.edDescription.text.getSpans(start, end, type)
+        spans.forEach { binding.edDescription.text.removeSpan(it) }
     }
 
-    private fun setMainResult(){
-        var editState = "new"
-        val tempNote: NoteItem? = if(note == null){
-            createNewNote()
-        } else{
-            editState = "update"
-            updateNote()
-        }
-        val i = Intent().apply {
-            putExtra(NoteFragment.NEW_NOTE_KEY, tempNote)
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun saveNote() {
+        val editState = if (note == null) "new" else "update"
+        val updatedNote = createOrUpdateNote()
+
+        setResult(RESULT_OK, Intent().apply {
+            putExtra(NoteFragment.NEW_NOTE_KEY, updatedNote)
             putExtra(NoteFragment.EDIT_STATE_KEY, editState)
-        }
-        setResult(RESULT_OK, i)
+        })
         finish()
     }
 
-    private fun updateNote(): NoteItem? = with(binding) {
-        return note?.copy(
-            title = edTitle.text.toString(),
-            content = HtmlManager.toHtml(edDescription.text)
+    private fun createOrUpdateNote(): NoteItem {
+        val title = binding.edTitle.text.toString()
+        val content = HtmlManager.toHtml(binding.edDescription.text)
+        val time = getCurrentTime()
+
+        return note?.copy(title = title, content = content) ?: NoteItem(
+            null,
+            title,
+            content,
+            time,
+            ""
         )
     }
 
-    private fun createNewNote(): NoteItem{
-        return NoteItem(
-            null,
-            binding.edTitle.text.toString(),
-            HtmlManager.toHtml(binding.edDescription.text),
-            getCurrentTime(),
-            ""
-            )
-    }
-
-    private fun getCurrentTime(): String{
+    private fun getCurrentTime(): String {
         val formatter = SimpleDateFormat("hh:mm:ss - yyyy/MM/dd", Locale.getDefault())
         return formatter.format(Calendar.getInstance().time)
     }
 
-    private fun actionBarSettings(){
-        val ab = supportActionBar
-        ab?.setDisplayHomeAsUpEnabled(true)
+    //actionBarSettings
+    private fun setupActionBar() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun openColorPicker(){
-        binding.colorPicker.visibility = View.VISIBLE
-        val openAnim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.open_color_picker)
-        binding.colorPicker.startAnimation(openAnim)
-    }
-
-    private fun closeColorPicker(){
-        val closeAnim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.close_color_picker)
-        closeAnim.setAnimationListener(object : Animation.AnimationListener{
-            override fun onAnimationStart(animation: Animation?) {
-
-            }
-
-            override fun onAnimationEnd(animation: Animation?) {
-                binding.colorPicker.visibility = View.GONE
-            }
-
-            override fun onAnimationRepeat(animation: Animation?) {
-
-            }
-
-        })
-        binding.colorPicker.startAnimation(closeAnim)
-    }
-
-    private fun actionMenuCallback(){
-        val actionCallBack = object : ActionMode.Callback{
-            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                menu?.clear()
-                return true
-            }
-
-            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                menu?.clear()
-                return true
-            }
-
-            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-                return true
-            }
-
-            override fun onDestroyActionMode(mode: ActionMode?) {
-
-            }
+    private fun toggleColorPickerVisibility() = with(binding) {
+        if (colorPicker.isShown) {
+            closeColorPicker()
+        } else {
+            openColorPicker()
         }
-        binding.edDescription.customSelectionActionModeCallback = actionCallBack
+    }
+
+    private fun openColorPicker() = with(binding) {
+        colorPicker.visibility = View.VISIBLE
+        colorPicker.startAnimation(
+            android.view.animation.AnimationUtils.loadAnimation(
+                this@NewNoteActivity,
+                R.anim.open_color_picker
+            )
+        )
+    }
+
+    private fun closeColorPicker() = with(binding) {
+        val closeAnim =
+            android.view.animation.AnimationUtils.loadAnimation(
+                this@NewNoteActivity,
+                R.anim.close_color_picker
+            )
+        closeAnim.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {}
+            override fun onAnimationEnd(animation: Animation?) {
+                colorPicker.visibility = View.GONE
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {}
+        })
+        colorPicker.startAnimation(closeAnim)
+    }
+
+    //actionMenuCallback
+    private fun setupActionMenuCallback() {
+        val actionCallback = object : ActionMode.Callback {
+            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?) =
+                true.also { menu?.clear() }
+
+            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?) =
+                true.also { menu?.clear() }
+
+            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?) = true
+            override fun onDestroyActionMode(mode: ActionMode?) {}
+        }
+        binding.edDescription.customSelectionActionModeCallback = actionCallback
     }
 }
