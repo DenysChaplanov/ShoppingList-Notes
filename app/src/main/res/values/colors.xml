@@ -8,6 +8,7 @@
     <color name="mustard">#FED766</color>
     <color name="gray">#696773</color>
     <color name="anti_flash_white">#EFF1F3</color>
+    <color name="blue_dark">#02424C</color>
     <!-- Color Picker !-->
     <color name="picker_red">#F44336</color>
     <color name="picker_green">#4CAF50</color>
