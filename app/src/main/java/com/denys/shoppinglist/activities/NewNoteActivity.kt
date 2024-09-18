@@ -6,12 +6,14 @@ import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Spannable
+import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.denys.shoppinglist.R
 import com.denys.shoppinglist.databinding.ActivityNewNoteBinding
 import com.denys.shoppinglist.entities.NoteItem
@@ -33,7 +35,29 @@ class NewNoteActivity : AppCompatActivity() {
         setContentView(binding.root)
         actionBarSettings()
         getNote()
+        onClickColorPicker()
         init()
+    }
+
+    private fun onClickColorPicker() = with(binding){
+        imRed.setOnClickListener {
+            setColorForSelectedText(R.color.picker_red)
+        }
+        imBlack.setOnClickListener {
+            setColorForSelectedText(R.color.picker_black)
+        }
+        imBlue.setOnClickListener {
+            setColorForSelectedText(R.color.picker_blue)
+        }
+        imYellow.setOnClickListener {
+            setColorForSelectedText(R.color.picker_yellow)
+        }
+        imGreen.setOnClickListener {
+            setColorForSelectedText(R.color.picker_green)
+        }
+        imOrange.setOnClickListener {
+            setColorForSelectedText(R.color.picker_orange)
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -97,6 +121,26 @@ class NewNoteActivity : AppCompatActivity() {
                 boldStyleSpan = StyleSpan(Typeface.BOLD)
                 edDescription.text.setSpan(boldStyleSpan, startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
+            edDescription.text.trim()
+            edDescription.setSelection(startPos)
+        } else {
+            Toast.makeText(this@NewNoteActivity, "No text selected", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setColorForSelectedText(colorId: Int) = with(binding) {
+        val startPos = edDescription.selectionStart
+        val endPos = edDescription.selectionEnd
+
+        val styles = edDescription.text.getSpans(startPos, endPos, ForegroundColorSpan::class.java)
+        val selectedText: String = edDescription.getText().substring(startPos, endPos)
+
+        if(selectedText.isNotEmpty()) {
+            if (styles.isNotEmpty()) edDescription.text.removeSpan(styles[0])
+
+            edDescription.text.setSpan(
+                ForegroundColorSpan(ContextCompat.getColor(
+                    this@NewNoteActivity, colorId)), startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             edDescription.text.trim()
             edDescription.setSelection(startPos)
         } else {
