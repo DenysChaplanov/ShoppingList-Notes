@@ -9,6 +9,7 @@ import com.denys.shoppinglist.databinding.ActivityMainBinding
 import com.denys.shoppinglist.dialogs.NewListDialog
 import com.denys.shoppinglist.fragments.FragmentManager
 import com.denys.shoppinglist.fragments.NoteFragment
+import com.denys.shoppinglist.fragments.ShopListNamesFragment
 
 class MainActivity : AppCompatActivity(), NewListDialog.Listener {
 
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        FragmentManager.setFragment(ShopListNamesFragment.newInstance(), this)
         setBottomNavListener()
     }
 
@@ -31,11 +33,10 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
                     FragmentManager.setFragment(NoteFragment.newInstance(), this)
                 }
                 R.id.shop_list -> {
-                    Log.d("MyLog", "Shop list was clicked")
+                    FragmentManager.setFragment(ShopListNamesFragment.newInstance(), this)
                 }
                 R.id.new_item -> {
-                    //FragmentManager.currentFrag?.onClickNew()
-                    NewListDialog.showDialog(this, this)
+                    FragmentManager.currentFrag?.onClickNew()
                 }
             }
             true
