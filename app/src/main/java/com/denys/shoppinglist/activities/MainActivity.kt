@@ -6,10 +6,11 @@ import android.os.NetworkOnMainThreadException
 import android.util.Log
 import com.denys.shoppinglist.R
 import com.denys.shoppinglist.databinding.ActivityMainBinding
+import com.denys.shoppinglist.dialogs.NewListDialog
 import com.denys.shoppinglist.fragments.FragmentManager
 import com.denys.shoppinglist.fragments.NoteFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NewListDialog.Listener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -33,10 +34,15 @@ class MainActivity : AppCompatActivity() {
                     Log.d("MyLog", "Shop list was clicked")
                 }
                 R.id.new_item -> {
-                    FragmentManager.currentFrag?.onClickNew()
+                    //FragmentManager.currentFrag?.onClickNew()
+                    NewListDialog.showDialog(this, this)
                 }
             }
             true
         }
+    }
+
+    override fun onClick(name: String) {
+        Log.d("MyLog", "Name: $name")
     }
 }
