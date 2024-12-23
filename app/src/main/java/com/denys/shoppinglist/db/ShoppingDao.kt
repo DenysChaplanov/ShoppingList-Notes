@@ -29,4 +29,7 @@ interface ShoppingDao {
 
     @Insert
     suspend fun insertShopListName(name: ShoppingListName)
+
+    @Query("DELETE FROM shopping_list_names WHERE id IS :id")
+    suspend fun deleteShopListName(id: Int)
 }

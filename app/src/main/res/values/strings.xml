@@ -4,7 +4,7 @@
     <string name="notes">Notes</string>
     <string name="shop_list">Shop list</string>
     <string name="new_item">New</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello_blank_fragment</string>
     <string name="title_hint">Title</string>
     <string name="description_hint">Description</string>
@@ -12,4 +12,8 @@
     <string name="list_name">List name</string>
     <string name="shop_list_fragment">Shop list fragment</string>
     <string name="create_list">Create list</string>
+    <string name="delete_alert">DELETE</string>
+    <string name="delete_item">Do you want to delete this item?</string>
+    <string name="delete_button">Delete</string>
+    <string name="cancel_button">Cancel</string>
 </resources>

@@ -8,32 +8,31 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.denys.shoppinglist.R
 import com.denys.shoppinglist.databinding.ListNameItemBinding
-import com.denys.shoppinglist.databinding.NoteListItemBinding
 import com.denys.shoppinglist.entities.NoteItem
 import com.denys.shoppinglist.entities.ShoppingListName
-import com.denys.shoppinglist.utils.HtmlManager
 
-class ShopListNameAdapter() : ListAdapter<ShoppingListName, ShopListNameAdapter.ItemHolder>(ItemComparator()) {
+class ShopListNameAdapter(private val listener: Listener) : ListAdapter<ShoppingListName,
+        ShopListNameAdapter.ItemHolder>(ItemComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         return ItemHolder.create(parent)
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        holder.setData(getItem(position))
+        holder.setData(getItem(position), listener)
     }
 
     class ItemHolder(view: View) : RecyclerView.ViewHolder(view){
         private val binding = ListNameItemBinding.bind(view)
 
-        fun setData(shopListNameItem: ShoppingListName) = with(binding){
+        fun setData(shopListNameItem: ShoppingListName, listener: Listener) = with(binding){
             tvListName.text = shopListNameItem.name
             tvTime.text = shopListNameItem.time
             itemView.setOnClickListener{
 
             }
             imDelete.setOnClickListener {
-
+                listener.deleteItem(shopListNameItem.id!!)
             }
         }
 
