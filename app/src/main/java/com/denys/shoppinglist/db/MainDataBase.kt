@@ -7,9 +7,9 @@ import androidx.room.RoomDatabase
 import com.denys.shoppinglist.entities.LibraryItem
 import com.denys.shoppinglist.entities.NoteItem
 import com.denys.shoppinglist.entities.ShoppingListItem
-import com.denys.shoppinglist.entities.ShoppingListNames
+import com.denys.shoppinglist.entities.ShoppingListName
 
-@Database(entities = [LibraryItem::class, NoteItem::class, ShoppingListItem::class, ShoppingListNames::class],
+@Database(entities = [LibraryItem::class, NoteItem::class, ShoppingListItem::class, ShoppingListName::class],
     version = 1)
 
 abstract class MainDataBase : RoomDatabase() {

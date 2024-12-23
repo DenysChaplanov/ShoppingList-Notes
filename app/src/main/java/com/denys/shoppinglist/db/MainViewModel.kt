@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.denys.shoppinglist.entities.NoteItem
+import com.denys.shoppinglist.entities.ShoppingListName
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -23,6 +24,13 @@ class MainViewModel(database: MainDataBase) : ViewModel() {
 
     fun deleteNote(id: Int) = viewModelScope.launch {
         dao.deleteNote(id)
+    }
+
+    //shoppingList
+    val allShopListNames: LiveData<List<ShoppingListName>> = dao.getAllShopListNames().asLiveData()
+
+    fun insertShopListName(listName: ShoppingListName) = viewModelScope.launch {
+        dao.insertShopListName(listName)
     }
 
 

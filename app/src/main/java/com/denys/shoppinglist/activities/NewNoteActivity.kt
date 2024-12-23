@@ -21,6 +21,7 @@ import com.denys.shoppinglist.entities.NoteItem
 import com.denys.shoppinglist.fragments.NoteFragment
 import com.denys.shoppinglist.utils.HtmlManager
 import com.denys.shoppinglist.utils.MyTouchListener
+import com.denys.shoppinglist.utils.TimeManager
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -151,7 +152,7 @@ class NewNoteActivity : AppCompatActivity() {
     private fun createOrUpdateNote(): NoteItem {
         val title = binding.edTitle.text.toString()
         val content = HtmlManager.toHtml(binding.edDescription.text)
-        val time = getCurrentTime()
+        val time = TimeManager.getCurrentTime()
 
         return note?.copy(title = title, content = content) ?: NoteItem(
             null,
@@ -160,11 +161,6 @@ class NewNoteActivity : AppCompatActivity() {
             time,
             ""
         )
-    }
-
-    private fun getCurrentTime(): String {
-        val formatter = SimpleDateFormat("hh:mm:ss - yyyy/MM/dd", Locale.getDefault())
-        return formatter.format(Calendar.getInstance().time)
     }
 
     //actionBarSettings

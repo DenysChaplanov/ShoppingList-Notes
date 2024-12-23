@@ -1,7 +1,6 @@
 package com.denys.shoppinglist.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,8 @@ import com.denys.shoppinglist.activities.MainApp
 import com.denys.shoppinglist.databinding.FragmentShopListNamesBinding
 import com.denys.shoppinglist.db.MainViewModel
 import com.denys.shoppinglist.dialogs.NewListDialog
+import com.denys.shoppinglist.entities.ShoppingListName
+import com.denys.shoppinglist.utils.TimeManager
 
 class ShopListNamesFragment : BaseFragment() {
     private lateinit var binding: FragmentShopListNamesBinding
@@ -24,9 +25,16 @@ class ShopListNamesFragment : BaseFragment() {
             activity as AppCompatActivity,
             object : NewListDialog.Listener {
                 override fun onClick(name: String) {
-                    Log.d("MyLog", "Name: $name")
+                    val shopListName = ShoppingListName(
+                        null,
+                        name,
+                        TimeManager.getCurrentTime(),
+                        0,
+                        0,
+                        ""
+                    )
+                    mainViewModel.insertShopListName(shopListName)
                 }
-
             })
     }
 
@@ -55,7 +63,7 @@ class ShopListNamesFragment : BaseFragment() {
     }
 
     private fun observer() {
-        mainViewModel.allNotes.observe(viewLifecycleOwner) {
+        mainViewModel.allShopListNames.observe(viewLifecycleOwner) {
 
         }
     }
