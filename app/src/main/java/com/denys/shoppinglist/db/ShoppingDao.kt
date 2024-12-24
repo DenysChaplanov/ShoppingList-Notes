@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.denys.shoppinglist.entities.NoteItem
-import com.denys.shoppinglist.entities.ShoppingListName
+import com.denys.shoppinglist.entities.ShopListNameItem
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -25,14 +25,14 @@ interface ShoppingDao {
 
     //shopping List
     @Query("SELECT * FROM shopping_list_names")
-    fun getAllShopListNames():Flow<List<ShoppingListName>>
+    fun getAllShopListNames():Flow<List<ShopListNameItem>>
 
     @Insert
-    suspend fun insertShopListName(name: ShoppingListName)
+    suspend fun insertShopListName(name: ShopListNameItem)
 
     @Query("DELETE FROM shopping_list_names WHERE id IS :id")
     suspend fun deleteShopListName(id: Int)
 
     @Update
-    suspend fun updateListName(shopListName: ShoppingListName)
+    suspend fun updateListName(shopListName: ShopListNameItem)
 }
