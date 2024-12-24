@@ -9,6 +9,8 @@
     <string name="title_hint">Title</string>
     <string name="description_hint">Description</string>
     <string name="new_list_name">New list name</string>
+    <string name="update_list_name">Update list name</string>
+    <string name="update">Update</string>
     <string name="list_name">List name</string>
     <string name="shop_list_fragment">Shop list fragment</string>
     <string name="create_list">Create list</string>
