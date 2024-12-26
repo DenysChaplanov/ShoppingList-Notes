@@ -11,8 +11,8 @@ import com.denys.shoppinglist.databinding.ListNameItemBinding
 import com.denys.shoppinglist.entities.ShopListNameItem
 import com.denys.shoppinglist.entities.ShoppingListItem
 
-class ShopListNameItemAdapter(private val listener: Listener) : ListAdapter<ShoppingListItem,
-        ShopListNameItemAdapter.ItemHolder>(ItemComparator()) {
+class ShopListItemAdapter(private val listener: Listener) : ListAdapter<ShoppingListItem,
+        ShopListItemAdapter.ItemHolder>(ItemComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         return if (viewType == 0) {
@@ -48,12 +48,12 @@ class ShopListNameItemAdapter(private val listener: Listener) : ListAdapter<Shop
             fun createShopItem(parent: ViewGroup): ItemHolder{
                 return ItemHolder(
                     LayoutInflater.from(parent.context).
-                    inflate(R.layout.list_name_item, parent, false))
+                    inflate(R.layout.shop_list_item, parent, false))
             }
             fun createLibraryItem(parent: ViewGroup): ItemHolder{
                 return ItemHolder(
                     LayoutInflater.from(parent.context).
-                    inflate(R.layout.list_name_item, parent, false))
+                    inflate(R.layout.shop_library_list_item, parent, false))
             }
         }
     }
