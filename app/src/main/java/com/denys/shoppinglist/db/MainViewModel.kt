@@ -43,6 +43,10 @@ class MainViewModel(database: MainDataBase) : ViewModel() {
     }
 
     //shopListItem
+    fun getAllItemsFromList(listId: Int): LiveData<List<ShopListItem>>{
+        return dao.getAllShopListItems(listId).asLiveData()
+    }
+
     fun insertShopItem(shopListItem: ShopListItem) = viewModelScope.launch {
         dao.insertItem(shopListItem)
     }
