@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.denys.shoppinglist.entities.NoteItem
+import com.denys.shoppinglist.entities.ShopListItem
 import com.denys.shoppinglist.entities.ShopListNameItem
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
@@ -41,6 +42,10 @@ class MainViewModel(database: MainDataBase) : ViewModel() {
         dao.updateListName(shopListName)
     }
 
+    //shopListItem
+    fun insertShopItem(shopListItem: ShopListItem) = viewModelScope.launch {
+        dao.insertItem(shopListItem)
+    }
 
     class MainViewModelFactory(val database: MainDataBase) : ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
