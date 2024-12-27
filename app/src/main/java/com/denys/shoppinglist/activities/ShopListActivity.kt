@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.denys.shoppinglist.R
 import com.denys.shoppinglist.databinding.ActivityShopListBinding
@@ -76,7 +77,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
             null,
             edItem?.text.toString(),
             null,
-            0,
+            false,
             shopListNameItem?.id!!,
             0
         )
@@ -109,15 +110,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         const val SHOP_LIST_NAME = "shop_list_name"
     }
 
-    override fun deleteItem(id: Int) {
-
-    }
-
-    override fun editItem(shopListName: ShopListNameItem) {
-
-    }
-
-    override fun onClickItem(shopListNameItem: ShopListNameItem) {
-
+    override fun onClickItem(shopListItem: ShopListItem) {
+        mainViewModel.updateListItem(shopListItem)
     }
 }

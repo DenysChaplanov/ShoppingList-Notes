@@ -51,6 +51,10 @@ class MainViewModel(database: MainDataBase) : ViewModel() {
         dao.insertItem(shopListItem)
     }
 
+    fun updateListItem(item: ShopListItem) = viewModelScope.launch {
+        dao.updateListItem(item)
+    }
+
     class MainViewModelFactory(val database: MainDataBase) : ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if(modelClass.isAssignableFrom(MainViewModel::class.java)){

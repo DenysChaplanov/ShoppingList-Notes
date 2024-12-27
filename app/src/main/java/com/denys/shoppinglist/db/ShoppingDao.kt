@@ -43,4 +43,8 @@ interface ShoppingDao {
 
     @Insert
     suspend fun insertItem(shopListItem: ShopListItem)
+
+    @Update
+    suspend fun updateListItem(item: ShopListItem)
+
 }
