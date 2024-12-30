@@ -14,6 +14,7 @@ import com.denys.shoppinglist.R
 import com.denys.shoppinglist.databinding.ActivityShopListBinding
 import com.denys.shoppinglist.db.MainViewModel
 import com.denys.shoppinglist.db.ShopListItemAdapter
+import com.denys.shoppinglist.dialogs.EditListItemDialog
 import com.denys.shoppinglist.entities.ShopListItem
 import com.denys.shoppinglist.entities.ShopListNameItem
 
@@ -76,7 +77,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         val item = ShopListItem(
             null,
             edItem?.text.toString(),
-            null,
+            "",
             false,
             shopListNameItem?.id!!,
             0
@@ -110,7 +111,20 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         const val SHOP_LIST_NAME = "shop_list_name"
     }
 
-    override fun onClickItem(shopListItem: ShopListItem) {
-        mainViewModel.updateListItem(shopListItem)
+    override fun onClickItem(shopListItem: ShopListItem, state: Int) {
+        when(state){
+            ShopListItemAdapter.CHECK_BOX -> mainViewModel.updateListItem(shopListItem)
+            ShopListItemAdapter.EDIT -> editListItem(shopListItem)
+        }
     }
+
+    private fun editListItem(item: ShopListItem){
+        EditListItemDialog.showDialog(this, item, object: EditListItemDialog.Listener{
+            override fun onClick(item: ShopListItem) {
+                mainViewModel.updateListItem(item)
+            }
+
+        })
+    }
+
 }

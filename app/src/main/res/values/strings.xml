@@ -23,4 +23,8 @@
     <string name="share_list">Share list</string>
     <string name="save_item">Save item</string>
     <string name="empty">Empty</string>
+    <string name="update_list_item">Update List Item</string>
+    <string name="update_item">Update Item</string>
+    <string name="item_info">Item info</string>
+    <string name="name">Name</string>
 </resources>

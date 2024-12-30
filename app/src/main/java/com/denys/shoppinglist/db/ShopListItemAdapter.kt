@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.denys.shoppinglist.R
-import com.denys.shoppinglist.databinding.ListNameItemBinding
 import com.denys.shoppinglist.databinding.ShopListItemBinding
-import com.denys.shoppinglist.entities.ShopListNameItem
 import com.denys.shoppinglist.entities.ShopListItem
 
 class ShopListItemAdapter(private val listener: Listener) : ListAdapter<ShopListItem,
@@ -48,7 +46,10 @@ class ShopListItemAdapter(private val listener: Listener) : ListAdapter<ShopList
                 chBox.isChecked = shopListItem.itemChecked
                 setPaintFlagAndColor(binding)
                 chBox.setOnClickListener {
-                    listener.onClickItem(shopListItem.copy(itemChecked = chBox.isChecked))
+                    listener.onClickItem(shopListItem.copy(itemChecked = chBox.isChecked), CHECK_BOX)
+                }
+                imEdit.setOnClickListener {
+                    listener.onClickItem(shopListItem, EDIT)
                 }
             }
 
@@ -74,7 +75,7 @@ class ShopListItemAdapter(private val listener: Listener) : ListAdapter<ShopList
         }
 
         private fun infoVisibility(shopListItem: ShopListItem): Int {
-            return if(shopListItem.itemInfo.isNullOrEmpty()){
+            return if(shopListItem.itemInfo.isEmpty()){
                 View.GONE
             } else
                 View.VISIBLE
@@ -105,6 +106,11 @@ class ShopListItemAdapter(private val listener: Listener) : ListAdapter<ShopList
     }
 
     interface Listener{
-        fun onClickItem(shopListItem: ShopListItem)
+        fun onClickItem(shopListItem: ShopListItem, state: Int)
+    }
+
+    companion object{
+        const val EDIT = 0
+        const val CHECK_BOX = 1
     }
 }
