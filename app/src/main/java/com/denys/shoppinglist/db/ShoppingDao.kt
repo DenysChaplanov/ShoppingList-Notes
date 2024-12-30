@@ -47,4 +47,7 @@ interface ShoppingDao {
     @Update
     suspend fun updateListItem(item: ShopListItem)
 
+    @Query("DELETE FROM shop_list_item WHERE listId LIKE :listId")
+    suspend fun deleteShopItemsByListId(listId: Int)
+
 }

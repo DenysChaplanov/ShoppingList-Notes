@@ -34,8 +34,9 @@ class MainViewModel(database: MainDataBase) : ViewModel() {
         dao.insertShopListName(listName)
     }
 
-    fun deleteShopListName(id: Int) = viewModelScope.launch {
-        dao.deleteShopListName(id)
+    fun deleteShopList(id: Int, deleteList: Boolean) = viewModelScope.launch {
+        if(deleteList) dao.deleteShopListName(id)
+        dao.deleteShopItemsByListId(id)
     }
 
     fun updateListName(shopListName: ShopListNameItem) = viewModelScope.launch {
@@ -54,6 +55,7 @@ class MainViewModel(database: MainDataBase) : ViewModel() {
     fun updateListItem(item: ShopListItem) = viewModelScope.launch {
         dao.updateListItem(item)
     }
+
 
     class MainViewModelFactory(val database: MainDataBase) : ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
