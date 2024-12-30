@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.denys.shoppinglist.entities.LibraryItem
 import com.denys.shoppinglist.entities.NoteItem
 import com.denys.shoppinglist.entities.ShopListItem
 import com.denys.shoppinglist.entities.ShopListNameItem
@@ -50,10 +51,19 @@ class MainViewModel(database: MainDataBase) : ViewModel() {
 
     fun insertShopItem(shopListItem: ShopListItem) = viewModelScope.launch {
         dao.insertItem(shopListItem)
+        if(!isLibraryItemExists(shopListItem.name))
+            dao.insertLibraryItem(
+                LibraryItem(null, shopListItem.name)
+            )
     }
 
     fun updateListItem(item: ShopListItem) = viewModelScope.launch {
         dao.updateListItem(item)
+    }
+
+    //library
+    private suspend fun isLibraryItemExists(name: String): Boolean{
+        return dao.getAllLibraryItems(name).isNotEmpty()
     }
 
 
