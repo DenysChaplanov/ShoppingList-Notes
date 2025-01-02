@@ -2,7 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/general">
-
         <ListPreference
             android:defaultValue="1"
             android:entries="@array/note_style_array"
@@ -22,5 +21,34 @@
             android:summary="@string/remove_all_ads_from_this_application"
             android:icon="@drawable/ic_ads"
             />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/theme_settings">
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/choose_theme_array"
+            android:entryValues="@array/choose_theme_values"
+            android:key="choose_theme_key"
+            android:icon="@drawable/ic_theme_style"
+            android:title="@string/choose_theme"
+            />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/note_text_settings">
+
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/text_size_array"
+            android:entryValues="@array/text_size_values"
+            android:key="title_size_key"
+            android:icon="@drawable/ic_text_size"
+            android:title="@string/choose_text_size" />
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/text_size_array"
+            android:entryValues="@array/text_size_values"
+            android:key="content_size_key"
+            android:icon="@drawable/ic_text_size"
+            android:title="@string/choose_content_text_size" />
     </PreferenceCategory>
 </PreferenceScreen>

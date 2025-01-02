@@ -32,4 +32,9 @@
     <string name="choose_time_format">Choose time format</string>
     <string name="remove_ads">Remove ads</string>
     <string name="remove_all_ads_from_this_application">Remove all ads from this application</string>
+    <string name="choose_theme">Choose theme</string>
+    <string name="theme_settings">Theme settings</string>
+    <string name="note_text_settings">Note text settings</string>
+    <string name="choose_text_size">Choose text size</string>
+    <string name="choose_content_text_size">Choose content text size</string>
 </resources>
