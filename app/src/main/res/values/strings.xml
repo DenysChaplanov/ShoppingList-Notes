@@ -27,4 +27,9 @@
     <string name="update_item">Update Item</string>
     <string name="item_info">Item info</string>
     <string name="name">Name</string>
+    <string name="general">General</string>
+    <string name="choose_note_style">Choose note style</string>
+    <string name="choose_time_format">Choose time format</string>
+    <string name="remove_ads">Remove ads</string>
+    <string name="remove_all_ads_from_this_application">Remove all ads from this application</string>
 </resources>

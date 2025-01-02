@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="note_style_array" >
+        <item>Linear</item>
+        <item>Grid</item>
+    </string-array>
+    <string-array name="note_style_values" >
+        <item>Linear</item>
+        <item>Grid</item>
+    </string-array>
+
+    <string-array name="time_format_array">
+        <item>Asia (25.01.2022)</item>
+        <item>USA (01/25/2022)</item>
+        <item>Europe (25/01/2022)</item>
+        <item>Japan (2022/01/25)</item>
+    </string-array>
+    <string-array name="time_format_values">
+        <item>hh:mm:ss — DD.MM.YYYY</item>
+        <item>hh:mm:ss — MM/DD/YYYY</item>
+        <item>hh:mm:ss — DD/MM/YYYY</item>
+        <item>hh:mm:ss — YYYY/MM/DD</item>
+    </string-array>
+
+</resources>
