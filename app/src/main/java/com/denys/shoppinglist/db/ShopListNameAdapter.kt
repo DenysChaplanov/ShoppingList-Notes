@@ -1,8 +1,11 @@
 package com.denys.shoppinglist.db
 
+import android.content.Context
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +30,13 @@ class ShopListNameAdapter(private val listener: Listener) : ListAdapter<ShopList
         fun setData(shopListNameItem: ShopListNameItem, listener: Listener) = with(binding){
             tvListName.text = shopListNameItem.name
             tvTime.text = shopListNameItem.time
+            val counterText = "${shopListNameItem.checkedItemsCounter}/${shopListNameItem.allItemCounter}"
+            tvCounter.text = counterText
+            pBar.max = shopListNameItem.allItemCounter
+            pBar.progress = shopListNameItem.checkedItemsCounter
+            val colorState = ColorStateList.valueOf(getProgressColorState(shopListNameItem, binding.root.context))
+            pBar.progressTintList = colorState
+            counterCard.backgroundTintList = colorState
             itemView.setOnClickListener{
                 listener.onClickItem(shopListNameItem)
             }
@@ -35,6 +45,14 @@ class ShopListNameAdapter(private val listener: Listener) : ListAdapter<ShopList
             }
             imEdit.setOnClickListener {
                 listener.editItem(shopListNameItem)
+            }
+        }
+
+        private fun getProgressColorState(item: ShopListNameItem, context: Context): Int {
+            return if(item.checkedItemsCounter == item.allItemCounter){
+                ContextCompat.getColor(context, R.color.progress_finish)
+            } else {
+                ContextCompat.getColor(context, R.color.progress_not_all)
             }
         }
 

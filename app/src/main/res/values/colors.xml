@@ -16,4 +16,8 @@
     <color name="picker_black">#2E2E2E</color>
     <color name="picker_yellow">#FFEB3B</color>
     <color name="picker_orange">#FF5722</color>
+    <!-- Color Progress Bar !-->
+    <color name="progress_not_all">#FFC107</color>
+    <color name="progress_finish">#00BCD4</color>
+
 </resources>
