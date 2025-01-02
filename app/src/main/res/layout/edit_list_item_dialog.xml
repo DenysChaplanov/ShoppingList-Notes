@@ -4,11 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp">
+    android:layout_marginTop="10dp"
+    android:background="@android:color/transparent">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:clipToPadding="true"
+        app:cardBackgroundColor="@color/anti_flash_white"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="0dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,7 +24,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -34,19 +44,19 @@
                 android:id="@+id/edName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="20"
                 android:ems="10"
                 android:hint="@string/name"
-                android:inputType="text" />
+                android:inputType="text"
+                android:maxLength="20" />
 
             <EditText
                 android:id="@+id/edInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="20"
                 android:ems="10"
                 android:hint="@string/item_info"
-                android:inputType="text" />
+                android:inputType="text"
+                android:maxLength="20" />
 
             <Button
                 android:id="@+id/bUpdate"

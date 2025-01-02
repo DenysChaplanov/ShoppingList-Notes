@@ -5,8 +5,10 @@
         <item name="colorPrimary">@color/blue_light</item>
         <item name="colorPrimaryVariant">@color/blue_dark</item>
         <item name="android:windowFullscreen">false</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant </item>
+        <!-- Make the background transparent -->
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="Theme.ShoppingList" parent="Base.Theme.ShoppingList" />

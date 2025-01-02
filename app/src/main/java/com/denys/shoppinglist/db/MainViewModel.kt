@@ -1,6 +1,7 @@
 package com.denys.shoppinglist.db
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
@@ -62,8 +63,12 @@ class MainViewModel(database: MainDataBase) : ViewModel() {
     }
 
     //library
+    val libraryItems = MutableLiveData<List<LibraryItem>>()
     private suspend fun isLibraryItemExists(name: String): Boolean{
         return dao.getAllLibraryItems(name).isNotEmpty()
+    }
+    fun getAllLibraryItems(name: String) = viewModelScope.launch {
+        libraryItems.postValue(dao.getAllLibraryItems(name))
     }
 
 

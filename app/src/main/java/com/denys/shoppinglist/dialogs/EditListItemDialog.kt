@@ -29,7 +29,10 @@ object EditListItemDialog {
             }
         }
         dialog = builder.create()
-        dialog.window?.setBackgroundDrawable(null)
+        dialog.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent)
+        }
+
         dialog.show()
     }
 
