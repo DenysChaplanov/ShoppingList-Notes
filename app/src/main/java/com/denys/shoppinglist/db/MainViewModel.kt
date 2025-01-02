@@ -71,6 +71,13 @@ class MainViewModel(database: MainDataBase) : ViewModel() {
         libraryItems.postValue(dao.getAllLibraryItems(name))
     }
 
+    fun updateLibraryItem(libraryItem: LibraryItem) = viewModelScope.launch {
+        dao.updateLibraryItem(libraryItem)
+    }
+
+    fun deleteLibraryItem(id: Int) = viewModelScope.launch {
+        dao.deleteLibraryItem(id)
+    }
 
     class MainViewModelFactory(val database: MainDataBase) : ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

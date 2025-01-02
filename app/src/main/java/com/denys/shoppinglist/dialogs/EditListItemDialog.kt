@@ -3,6 +3,7 @@ package com.denys.shoppinglist.dialogs
 import android.content.Context
 import android.text.InputFilter
 import android.view.LayoutInflater
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.denys.shoppinglist.databinding.EditListItemDialogBinding
 import com.denys.shoppinglist.entities.ShopListItem
@@ -18,6 +19,7 @@ object EditListItemDialog {
         binding.apply {
             edName.setText(item.name)
             edInfo.setText(item.itemInfo)
+            if(item.itemType == 1) edInfo.visibility = View.GONE
             bUpdate.setOnClickListener{
                 if(edName.text.toString().isNotEmpty()){
                     listener.onClick(item.copy(
