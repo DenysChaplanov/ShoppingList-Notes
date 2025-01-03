@@ -1,15 +1,16 @@
 package com.denys.shoppinglist.activities
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import android.os.NetworkOnMainThreadException
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.denys.shoppinglist.R
 import com.denys.shoppinglist.databinding.ActivityMainBinding
 import com.denys.shoppinglist.dialogs.NewListDialog
 import com.denys.shoppinglist.fragments.FragmentManager
 import com.denys.shoppinglist.fragments.NoteFragment
 import com.denys.shoppinglist.fragments.ShopListNamesFragment
+import com.denys.shoppinglist.settings.SettingsActivity
 
 class MainActivity : AppCompatActivity(), NewListDialog.Listener {
 
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
         binding.bottomNavigation.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.settings -> {
-                    Log.d("MyLog", "Settings was clicked")
+                    startActivity(Intent(this, SettingsActivity::class.java))
                 }
                 R.id.notes -> {
                     FragmentManager.setFragment(NoteFragment.newInstance(), this)
