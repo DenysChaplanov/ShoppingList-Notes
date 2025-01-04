@@ -22,6 +22,7 @@ import com.denys.shoppinglist.entities.LibraryItem
 import com.denys.shoppinglist.entities.ShopListItem
 import com.denys.shoppinglist.entities.ShopListNameItem
 import com.denys.shoppinglist.utils.ShareHelper
+import com.denys.shoppinglist.utils.ThemeUtils
 
 class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
     private lateinit var binding: ActivityShopListBinding
@@ -37,6 +38,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(ThemeUtils.applyTheme(this))
         super.onCreate(savedInstanceState)
         binding = ActivityShopListBinding.inflate(layoutInflater)
         setContentView(binding.root)

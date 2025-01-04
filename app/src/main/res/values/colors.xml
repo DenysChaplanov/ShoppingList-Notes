@@ -19,5 +19,8 @@
     <!-- Color Progress Bar !-->
     <color name="progress_not_all">#FFC107</color>
     <color name="progress_finish">#00BCD4</color>
+    <!-- Second theme !-->
+    <color name="green_light">#3E7B27</color>
+    <color name="green_dark">#123524</color>
 
 </resources>

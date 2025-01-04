@@ -30,6 +30,7 @@ class NoteFragment : BaseFragment(), NoteAdapter.Listener {
     private val mainViewModel: MainViewModel by activityViewModels {
         MainViewModel.MainViewModelFactory((context?.applicationContext as MainApp).database)
     }
+
     override fun onClickNew() {
         editLauncher.launch(Intent(activity, NewNoteActivity::class.java))
     }
@@ -39,7 +40,11 @@ class NoteFragment : BaseFragment(), NoteAdapter.Listener {
         onEditResult()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentNoteBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -50,7 +55,7 @@ class NoteFragment : BaseFragment(), NoteAdapter.Listener {
         observer()
     }
 
-    private fun initRcView() = with(binding){
+    private fun initRcView() = with(binding) {
         defPref = PreferenceManager.getDefaultSharedPreferences(requireActivity())
         rcViewNote.layoutManager = getLayoutManager()
         adapter = NoteAdapter(this@NoteFragment, defPref)
@@ -65,20 +70,21 @@ class NoteFragment : BaseFragment(), NoteAdapter.Listener {
         }
     }
 
-    private fun observer(){
+    private fun observer() {
         mainViewModel.allNotes.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
     }
 
-    private fun onEditResult(){
+    private fun onEditResult() {
         editLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()){
-            if(it.resultCode == Activity.RESULT_OK){
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (it.resultCode == Activity.RESULT_OK) {
                 val editState = it.data?.getStringExtra(EDIT_STATE_KEY)
-                if(editState == "update"){
+                if (editState == "update") {
                     mainViewModel.updateNote(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)
-                } else{
+                } else {
                     mainViewModel.insertNote(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)
                 }
 
@@ -100,6 +106,7 @@ class NoteFragment : BaseFragment(), NoteAdapter.Listener {
     companion object {
         const val NEW_NOTE_KEY = "new_note_key"
         const val EDIT_STATE_KEY = "edit_state_key"
+
         @JvmStatic
         fun newInstance() = NoteFragment()
     }

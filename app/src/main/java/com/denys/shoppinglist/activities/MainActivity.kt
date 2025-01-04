@@ -1,6 +1,7 @@
 package com.denys.shoppinglist.activities
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -11,13 +12,16 @@ import com.denys.shoppinglist.fragments.FragmentManager
 import com.denys.shoppinglist.fragments.NoteFragment
 import com.denys.shoppinglist.fragments.ShopListNamesFragment
 import com.denys.shoppinglist.settings.SettingsActivity
+import com.denys.shoppinglist.utils.ThemeUtils
 
 class MainActivity : AppCompatActivity(), NewListDialog.Listener {
 
     private lateinit var binding: ActivityMainBinding
     private var currentMenuItemId = R.id.shop_list
+    private lateinit var defPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(ThemeUtils.applyTheme(this))
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

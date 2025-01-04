@@ -24,6 +24,7 @@ import com.denys.shoppinglist.entities.NoteItem
 import com.denys.shoppinglist.fragments.NoteFragment
 import com.denys.shoppinglist.utils.HtmlManager
 import com.denys.shoppinglist.utils.MyTouchListener
+import com.denys.shoppinglist.utils.ThemeUtils
 import com.denys.shoppinglist.utils.TimeManager
 
 class NewNoteActivity : AppCompatActivity() {
@@ -32,6 +33,7 @@ class NewNoteActivity : AppCompatActivity() {
     private var pref: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(ThemeUtils.applyTheme(this))
         super.onCreate(savedInstanceState)
         binding = ActivityNewNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
