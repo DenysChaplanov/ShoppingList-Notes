@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import com.denys.shoppinglist.databinding.DeleteDialogBinding
-import com.denys.shoppinglist.databinding.NewListDialogBinding
 
 object DeleteDialog {
     fun showDialog(context: Context, listener: Listener) {

@@ -52,7 +52,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         saveItem = menu?.findItem(R.id.save_item)!!
         saveItem.isVisible = false
         val newItem = menu.findItem(R.id.new_item)
-        edItem = newItem.actionView?.findViewById(R.id.edNewShopItem) as EditText
+        edItem = newItem.actionView?.findViewById(R.id.edNewShopItem)!!
         newItem.setOnActionExpandListener(expandActionView())
         textWatcher = textWatcher()
         return true

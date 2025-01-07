@@ -1,7 +1,6 @@
 package com.denys.shoppinglist.dialogs
 
 import android.content.Context
-import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog

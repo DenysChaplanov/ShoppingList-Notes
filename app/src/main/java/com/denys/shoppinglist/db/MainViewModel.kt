@@ -11,10 +11,9 @@ import com.denys.shoppinglist.entities.NoteItem
 import com.denys.shoppinglist.entities.ShopListItem
 import com.denys.shoppinglist.entities.ShopListNameItem
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
 
 class MainViewModel(database: MainDataBase) : ViewModel() {
-    val dao = database.shoppingDao()
+    private val dao = database.shoppingDao()
     val allNotes: LiveData<List<NoteItem>> = dao.getAllNotes().asLiveData()
 
     fun insertNote(note: NoteItem) = viewModelScope.launch {
@@ -79,7 +78,7 @@ class MainViewModel(database: MainDataBase) : ViewModel() {
         dao.deleteLibraryItem(id)
     }
 
-    class MainViewModelFactory(val database: MainDataBase) : ViewModelProvider.Factory{
+    class MainViewModelFactory(private val database: MainDataBase) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if(modelClass.isAssignableFrom(MainViewModel::class.java)){
                 @Suppress("UNCHECKED_CAST")

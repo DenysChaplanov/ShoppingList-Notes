@@ -98,6 +98,7 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
                 R.id.notes -> {
                     showInterAd(object : AdListener {
                         override fun onFinish() {
+                            setActionBarTitle(getString(R.string.note_list_title))
                             currentMenuItemId = R.id.notes
                             FragmentManager.setFragment(
                                 NoteFragment.newInstance(),
@@ -109,6 +110,7 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
                 }
 
                 R.id.shop_list -> {
+                    setActionBarTitle(getString(R.string.shop_list_title))
                     currentMenuItemId = R.id.shop_list
                     FragmentManager.setFragment(ShopListNamesFragment.newInstance(), this)
                 }
@@ -119,6 +121,10 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
             }
             true
         }
+    }
+
+    private fun setActionBarTitle(title: String) {
+        supportActionBar?.title = title
     }
 
     override fun onResume() {
